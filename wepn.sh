@@ -710,7 +710,7 @@ load_iran_ips(){
     sleep 0.5
 
     # URL of the text file to read
-    url="https://raw.githubusercontent.com/elemen3/wepn/master/iran_ip_ranges.txt"
+    url="https://raw.githubusercontent.com/LonUp/ALL-IRAN-CIDR/main/IRIPCIDR.txt"
 
     # Read the file from the URL line by line
     while read -r line; do
